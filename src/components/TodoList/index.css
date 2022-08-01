@@ -1,0 +1,32 @@
+
+*{
+  padding:0;
+  margin:0
+}
+.box{
+  text-align: left;
+  width: 300px;
+  margin: 0 auto;
+}
+.display{
+display: flex;
+
+}
+.todo-state{
+  display: flex;
+  justify-content: space-between;
+}
+.todo{
+  justify-content: space-between;
+  display: flex;
+  
+}
+.edit{
+  display: none;
+}
+.editing .edit{
+  display: block;
+}
+.editing .display{
+  display: none;
+}
