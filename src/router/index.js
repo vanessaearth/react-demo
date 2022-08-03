@@ -1,54 +1,31 @@
-import React from 'react-router-dom';
 
-import IndexPage from '../views/index/index'
-import TopicDetailPage from '../views/topicDetail/index'
-import UserPage from '../views/user/index'
-import GetStartPage from '../views/getstart/index'
-import AboutPage from '../views/about/index'
-import Page404 from '../views/page404/index'
+import { lazy } from 'react'
+
 export let routes = [{
   path: '/',
   exact: true,
-  element:<IndexPage/>,
-  render(props) {
-    return <IndexPage {...props} />
-  }
+  element:lazy(() => import('../views/index/index'))
 },
 {
   path: '/topic-detail/:id',
   exact: true,
-  element:<TopicDetailPage/>,
-  render(props) {
-    return <TopicDetailPage {...props} />
-  }
+  element:lazy(() => import('../views/topicDetail/index'))
 },{
   path:'/user/:loginname',
   exact:true,
-  element:<UserPage/>,
-  render(props){
-    return <UserPage {...props} />
-  }
+  element:lazy(() => import('../views/user/index'))
 },{
   path:'/getstart',
   exact:true,
-  element:<GetStartPage/>,
-  render(props){
-    return <GetStartPage {...props} />
-  }
+  element:lazy(() => import('../views/getstart/index'))
 },{
   path:'/about',
   exact:true,
-  element:<AboutPage/>,
-  render(props){
-    return <AboutPage {...props} />
-  }
+  element:lazy(() =>import('../views/about/index'))
 },{
   path:'*',
   exact:true,
-  element:<Page404/>,
-  render(props){
-    return <Page404 {...props} />
-  }
+  element:lazy(() => import('../views/page404/index'))
 }
 ]
 export  let navs=[

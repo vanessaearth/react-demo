@@ -1,4 +1,4 @@
-import { useRef,useEffect, useState } from "react";
+import React,{ useRef,useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 function Li(props) {
@@ -12,6 +12,8 @@ function Li(props) {
       edit.current.focus()
     }
   }, [isEdit])
+  console.log('render',id)
+ 
   return (
     <li className={isEdit?'editing':''}>
       <div className="todo">
@@ -32,6 +34,7 @@ function Li(props) {
       </div>
     </li>
   );
+  
 }
 
-export default Li;
+export default React.memo(Li);

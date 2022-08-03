@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function diff(prevtree, nextTree) {
+      diffNode(prevtree, nextTree)
+    }
+
+    function diffNode(prevNode, nextNode) {
+      if (prevNode.type !== nextNode.type) {
+        console.log('替换节点')
+      } else if ('text' in prevNode) {
+        if (prevNode.text !== nextNode.text) {
+          console.log('文本内容发生变化')
+        }
+      } else if (typeof prevNode.type === 'function') {
+        // 调用组件的updater
+      } else {
+        diffProps(prevNode.props, nextNode.props)
+        diffChid(prevNode.children, nextNode.children)
+      }
+    }
+    function diffProps(prevProps, nextProps) {
+      // 新增属性，删除属性，属性值发生变化
+      for (let s in nextProps) {
+        if (prevProps[s] !== undefined) {
+          if (prevProps[s] !== nextProps[s]) {
+            console.log('属性只发生变化')
+          }
+        } else {
+          console.log('新建属性')
+        }
+      }
+      for (let s in prevProps) {
+        if (nextProps[s] === undefined) {
+          console.log('属性删除了')
+        }
+      }
+    }
+    // 默认情况下：后一个的索引值不小于前一个元素
+    // prev：a-0,b-1.c-2,d3
+    // next: b a d c
+
+    function diffChid(prevChild, nextChild) {
+      const prevKeys = setKeys(prevChild)
+      const nextKeys = setKeys(nextChild)
+      let lastIndex = 0
+      for (let k in nextKeys) {
+        if (prevKeys[k]) {
+          diffNode(prevKeys[k], nextKeys[k])
+          if (lastIndex > prevKeys[k]._index) {
+            console.log('位置有变化')
+          } else {
+            lastIndex = prevKeys[k]._index
+          }
+        } else {
+          console.log('新增节点')
+        }
+      }
+      for (let k in prevKeys) {
+        if (!nextKeys[k]) {
+          console.log('删除节点')
+        }
+      }
+    }
+    function setKeys(child) {
+      let keys = {}
+      child.forEach((item, index) => {
+        let key = item.key || index
+        key = 'key' + key
+        keys[key] = item
+        keys[key]._index = index
+      })
+      return keys
+    }
+
+    let prevTree = {
+      type: 'ul',
+      children: [{
+        type: 'li',
+        key: 'a',
+        children: [
+          { type: 'p', children: [{ text: 'p' }] },
+          { type: 'button', children: [{ text: 'btn' }] }
+        ]
+      }, {
+        type: 'li',
+        key: 'b',
+        props: {},
+        children: [
+          { type: 'p', children: [{ text: 'p' }] },
+          { type: 'button', children: [{ text: 'btn' }] }
+        ]
+      }
+      ]
+    }
+    let nextTree = {
+      type: 'ul',
+      children: [{
+        type: 'li',
+        key: 'b',
+        props: {className: 'bb'},
+        children: [
+          { type: 'p', children: [{ text: 'p' }] },
+          { type: 'button', children: [{ text: 'btn2' }] }
+        ]
+      }, {
+        type: 'a',
+        key: 'a',
+        children: [
+          { type: 'p', children: [{ text: 'p' }] },
+          { type: 'button', children: [{ text: 'btn' }] }
+        ]
+      }, {
+        type: 'li',
+        key: 'c',
+        children: [
+          { type: 'p', children: [{ text: 'p' }] },
+          { type: 'button', children: [{ text: 'btn' }] }
+        ]
+      }
+      ]
+    }
+    diff(prevTree, nextTree)
+  </script>
+</body>
+
+</html>

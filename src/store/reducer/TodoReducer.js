@@ -1,5 +1,5 @@
 /* eslint-disable no-fallthrough */
-import { data } from '../components/TodoList/data'
+import { data } from '../../components/TodoList/data'
 
 export function TodoReducer(state = data, action) {
   switch (action.type) {
